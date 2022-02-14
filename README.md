@@ -1,4 +1,4 @@
-# guiTemplate
+Gr# guiTemplate
 Proyecto para usar como "project Template" en Intellij. 
 Universidad del Valle
 Escuela de Ingeniería de Sistemas y Computación

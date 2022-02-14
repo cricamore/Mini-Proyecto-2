@@ -8,6 +8,7 @@ import java.awt.*;
 public class Diccionario {
 
     private ArrayList<String> diccionario = new ArrayList<>();
+    private Timer timer;
 
     public Diccionario(){
         FileManager fileManager = new FileManager();

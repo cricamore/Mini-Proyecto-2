@@ -3,6 +3,7 @@ package myProject;
 import javax.swing.*;
 import java.awt.*;
 import java.text.AttributedCharacterIterator;
+import java.util.Random;
 
 public class PanelDerecho extends JPanel {
     public static final int WIDTH = 370;
@@ -12,6 +13,7 @@ public class PanelDerecho extends JPanel {
     private Timer timer;
     private JButton inicio;
     private String palabra;
+    private Random random;
 
     public PanelDerecho(String palabra){
         this.palabra=palabra;
@@ -50,19 +52,14 @@ public class PanelDerecho extends JPanel {
                 g.setColor(Color.BLACK);
                 g.drawString("Memorice las palabras que se mostrarán",4,70);
                 g.drawString("a continuación:",4,88);
-
-                g.setFont(new Font(Font.DIALOG,Font.BOLD,40));
-                Color color = new Color(255,128,0);
-                g.setColor(color);
-                g.drawString(palabra,100,150);
-
                 break;
 
             case 2:g.setFont(new Font(Font.DIALOG,Font.BOLD,17));
                 g.setColor(Color.BLACK);
-                g.drawString("¿Esta palabra apareció?",4,1);
+                g.drawString("¿Esta palabra apareció?",4,70);
                 break;
         }
+
     }
 
     public void reset(String palabra){

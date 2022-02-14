@@ -1,6 +1,7 @@
 package myProject;
 
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,6 +23,7 @@ public class GUIMemoryGame extends JFrame {
     private Escucha escucha;
     private JButton inicio, salir, ok, si, no, empezar;
     private JTextField nombreUsuario;
+    private JTextArea palabra;
     private Timer timer;
     private int counter;
     private Random random;
@@ -55,7 +57,7 @@ public class GUIMemoryGame extends JFrame {
         //Set up JComponents
         headerProject = new Header("I KNOW THAT WORD!", Color.BLACK);
         this.add(headerProject,BorderLayout.PAGE_START); //Change this line if you change JFrame Container's Layout
-        panelDerecho = new PanelDerecho(controlMemoryGame.pintarPalabra());
+        panelDerecho = new PanelDerecho( controlMemoryGame.pintarPalabra());
         add(panelDerecho,BorderLayout.EAST);
         panelDerecho.setLayout(null);
         panelIzquierdo = new PanelIzquierdo();
@@ -79,7 +81,7 @@ public class GUIMemoryGame extends JFrame {
         ok.setBounds(150,150,55,40);
         ok.addActionListener(escucha);
 
-        timer = new Timer(500, escucha);
+        timer = new Timer(5000, escucha);
         timer.start();
 
         empezar = new JButton("Empezar");
@@ -87,6 +89,17 @@ public class GUIMemoryGame extends JFrame {
         panelDerecho.add(empezar);
         empezar.setVisible(false);
         empezar.setEnabled(false);
+
+        diccionario = new Diccionario();
+
+        palabra = new JTextArea(diccionario.getPalabra());
+        palabra.setBounds(100, 100,150,30);
+        palabra.setEditable(false);
+        palabra.setFont(new Font(Font.DIALOG,Font.BOLD,25));
+        panelDerecho.add(palabra);
+        palabra.setVisible(false);
+        palabra.setEnabled(false);
+        palabra.setBackground(Color.LIGHT_GRAY);
 
 
     }
@@ -105,7 +118,7 @@ public class GUIMemoryGame extends JFrame {
     /**
      * inner class that extends an Adapter Class or implements Listeners used by GUI class
      */
-    private class Escucha extends KeyAdapter implements ActionListener {
+    private class Escucha extends KeyAdapter implements ActionListener, myProject.Escucha {
 
         public Escucha(){
             random = new Random();
@@ -129,16 +142,19 @@ public class GUIMemoryGame extends JFrame {
             }
 
             if(e.getSource()==inicio){
+
                 panelDerecho.mostrarEnunciado();
                 inicio.setVisible(false);
                 inicio.setEnabled(false);
-                if(e.getSource()==timer) {
-                    counter++;
-                    if(counter<5) {
-                        panelDerecho.setPalabra(controlMemoryGame.getPalabra());
-                    }
-                }
+                palabra.setVisible(true);
+                palabra.setEnabled(true);
+                palabra.reset();
             }
+
+
         }
+
+
+
     }
 }
