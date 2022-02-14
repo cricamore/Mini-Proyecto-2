@@ -11,10 +11,9 @@ public class ControlMemoryGame {
     }
 
     public String pintarPalabra(){
+
         palabra=palabras.getPalabra();
-        for(int i=0;i<=20;i++){
-            palabra
-        }
+        return palabra;
     }
 
 

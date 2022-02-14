@@ -1,7 +1,9 @@
 package myProject;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.awt.*;
 
 public class Diccionario {
 
