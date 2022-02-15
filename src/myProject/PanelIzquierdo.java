@@ -19,7 +19,7 @@ public class PanelIzquierdo extends JPanel {
     public PanelIzquierdo(){
         paneles=0;
         usuario = "";
-        nivel = "d";
+        nivel = "1";
         setPreferredSize(new Dimension(WIDTH,HEIGHT));
 
     }

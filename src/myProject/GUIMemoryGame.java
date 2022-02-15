@@ -148,7 +148,6 @@ public class GUIMemoryGame extends JFrame {
                 inicio.setEnabled(false);
                 palabra.setVisible(true);
                 palabra.setEnabled(true);
-                palabra.reset();
             }
 
 
