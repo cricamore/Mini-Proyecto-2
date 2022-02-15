@@ -43,9 +43,9 @@ public class PanelDerecho extends JPanel {
 
         switch (enunciado){
 
-            case 0: g.setFont(new Font(Font.DIALOG,Font.BOLD,17));
+            case 0: /*g.setFont(new Font(Font.DIALOG,Font.BOLD,17));
                 g.setColor(Color.BLACK);
-                g.drawString("Presione el botón para"+"\n dar inicio al nivel",4,17);
+                g.drawString("Presione el botón para"+"\n dar inicio al nivel",4,17);*/
             break;
 
             case 1: g.setFont(new Font(Font.DIALOG,Font.BOLD,17));

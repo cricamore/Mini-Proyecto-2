@@ -7,6 +7,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class PanelIzquierdo extends JPanel {
     public static final int WIDTH = 370;
@@ -14,6 +15,7 @@ public class PanelIzquierdo extends JPanel {
     private JButton salir, ok;
     private String usuario, nivel;
     private JTextField nombreUsuario;
+    private ArrayList<String> usuariosArray = new ArrayList<>();
     private int paneles;
 
     public PanelIzquierdo(){
@@ -35,21 +37,9 @@ public class PanelIzquierdo extends JPanel {
     }
 
     public void almacenar(){
+        Usuarios usuarios = new Usuarios();
         usuario = nombreUsuario.getText();
-        try {
-            File file = new File("C:\\Users\\xxkmi\\IdeaProjects\\MemoryGame\\src\\myProject\\files\\usuarios.txt");
-
-            if(!file.exists()) file.createNewFile();
-
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(usuario);
-            bw.close(); //close the BufferdWriter
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        usuarios.escribirTexto(nivel + usuario);
     }
 
 

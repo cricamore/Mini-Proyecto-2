@@ -65,7 +65,7 @@ public class GUIMemoryGame extends JFrame {
         panelIzquierdo.setLayout(null);
 
         inicio = new JButton("INICIAR NIVEL");
-        inicio.setBounds(93,25,200,30);
+        inicio.setBounds(93,150,200,30);
         panelDerecho.add(inicio);
         inicio.setVisible(false);
         inicio.setEnabled(false);
@@ -81,8 +81,7 @@ public class GUIMemoryGame extends JFrame {
         ok.setBounds(150,150,55,40);
         ok.addActionListener(escucha);
 
-        timer = new Timer(5000, escucha);
-        timer.start();
+        timer = new Timer(500, escucha);
 
         empezar = new JButton("Empezar");
         empezar.setBounds(93,25,200,30);
@@ -92,14 +91,8 @@ public class GUIMemoryGame extends JFrame {
 
         diccionario = new Diccionario();
 
-        palabra = new JTextArea(diccionario.getPalabra());
-        palabra.setBounds(100, 100,150,30);
-        palabra.setEditable(false);
-        palabra.setFont(new Font(Font.DIALOG,Font.BOLD,25));
-        panelDerecho.add(palabra);
-        palabra.setVisible(false);
-        palabra.setEnabled(false);
-        palabra.setBackground(Color.LIGHT_GRAY);
+
+
 
 
     }
@@ -133,22 +126,39 @@ public class GUIMemoryGame extends JFrame {
 
             if(e.getSource()==ok){
 
-                inicio.setVisible(true);
-                inicio.setEnabled(true);
+
                 panelIzquierdo.almacenar();
                 panelIzquierdo.cambiarDePanel();
                 ok.setVisible(false);
                 ok.setEnabled(false);
             }
 
-            if(e.getSource()==inicio){
 
+            palabra = new JTextArea(diccionario.getPalabra());
+            panelDerecho.add(palabra);
+            timer.start();
+
+            if(e.getSource()==timer){
+                counter++;
+                if(counter <=10) {
+                    palabra.setBounds(100, 100, 175, 35);
+                    palabra.setEditable(false);
+                    palabra.setFont(new Font(Font.DIALOG, Font.BOLD, 25));
+                    palabra.setBackground(Color.LIGHT_GRAY);
+                }else {
+                    timer.stop();
+                    palabra.setVisible(false);
+                    palabra.setEnabled(false);
+                    inicio.setVisible(true);
+                    inicio.setEnabled(true);
+                }
+            }else {
+                timer.start();
                 panelDerecho.mostrarEnunciado();
-                inicio.setVisible(false);
-                inicio.setEnabled(false);
-                palabra.setVisible(true);
-                palabra.setEnabled(true);
             }
+
+
+
 
 
         }
