@@ -64,12 +64,13 @@ public class GUIMemoryGame extends JFrame {
         add(panelIzquierdo,BorderLayout.WEST);
         panelIzquierdo.setLayout(null);
 
-
         inicio = new JButton("INICIAR NIVEL");
         //initTimer.addActionListener(escucha);
         //initTimer.setVisible(false);
         inicio.setEnabled(false);
         add(inicio,BorderLayout.SOUTH);
+
+        //timer
 
         timer = new Timer(5000,escucha);
 
