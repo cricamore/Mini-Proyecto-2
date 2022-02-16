@@ -25,7 +25,7 @@ public class GUIMemoryGame extends JFrame {
     private JTextField nombreUsuario;
     private JTextArea palabra;
     private Timer timer;
-    private int counter;
+
     private Random random;
     private Diccionario diccionario;
 
@@ -64,7 +64,15 @@ public class GUIMemoryGame extends JFrame {
         add(panelIzquierdo,BorderLayout.WEST);
         panelIzquierdo.setLayout(null);
 
+
         inicio = new JButton("INICIAR NIVEL");
+        //initTimer.addActionListener(escucha);
+        //initTimer.setVisible(false);
+        inicio.setEnabled(false);
+        add(inicio,BorderLayout.SOUTH);
+
+        timer = new Timer(5000,escucha);
+
         inicio.setBounds(93,25,200,30);
         panelDerecho.add(inicio);
         inicio.setVisible(false);
@@ -81,8 +89,7 @@ public class GUIMemoryGame extends JFrame {
         ok.setBounds(150,150,55,40);
         ok.addActionListener(escucha);
 
-        timer = new Timer(5000, escucha);
-        timer.start();
+        //timer = new Timer(5000, escucha);
 
         empezar = new JButton("Empezar");
         empezar.setBounds(93,25,200,30);
@@ -120,13 +127,23 @@ public class GUIMemoryGame extends JFrame {
      */
     private class Escucha extends KeyAdapter implements ActionListener, myProject.Escucha {
 
+        private int counter=0;
+
         public Escucha(){
             random = new Random();
-            counter = 0;
+
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            if(e.getSource()==timer){
+                if (counter<9){
+                    counter++;
+                    panelDerecho.add(palabra);
+                    palabra.setText(    controlMemoryGame.pintarPalabra()   );
+                }
+
+            }
             if(e.getSource()==salir){
                 System.exit(0);
             }
@@ -143,6 +160,7 @@ public class GUIMemoryGame extends JFrame {
 
             if(e.getSource()==inicio){
 
+                timer.start();
                 panelDerecho.mostrarEnunciado();
                 inicio.setVisible(false);
                 inicio.setEnabled(false);
@@ -153,7 +171,6 @@ public class GUIMemoryGame extends JFrame {
 
         }
 
-
+    }
 
     }
-}

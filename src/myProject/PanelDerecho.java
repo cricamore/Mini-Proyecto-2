@@ -5,7 +5,7 @@ import java.awt.*;
 import java.text.AttributedCharacterIterator;
 import java.util.Random;
 
-public class PanelDerecho extends JPanel {
+public class  PanelDerecho extends JPanel {
     public static final int WIDTH = 370;
     public static final int HEIGHT = 200;
     private Diccionario diccionario;

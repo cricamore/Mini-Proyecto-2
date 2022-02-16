@@ -21,7 +21,8 @@ public class PanelIzquierdo extends JPanel {
         usuario = "";
         nivel = "1";
         setPreferredSize(new Dimension(WIDTH,HEIGHT));
-
+        nombreUsuario = new JTextField();
+        nombreUsuario.setBounds(80,100,200,30);
     }
 
     public void cambiarDePanel(){
@@ -35,28 +36,14 @@ public class PanelIzquierdo extends JPanel {
     }
 
     public void almacenar(){
+        Usuarios usuarios = new Usuarios();
         usuario = nombreUsuario.getText();
-        try {
-            File file = new File("C:\\Users\\xxkmi\\IdeaProjects\\MemoryGame\\src\\myProject\\files\\usuarios.txt");
-
-            if(!file.exists()) file.createNewFile();
-
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(usuario);
-            bw.close(); //close the BufferdWriter
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        usuarios.escribirTexto(nivel + ". " + usuario);
     }
 
 
     @Override
     public void paintComponent(Graphics g){
-
-
 
         super.paintComponent(g);
         g.setColor(Color.WHITE);
@@ -67,13 +54,14 @@ public class PanelIzquierdo extends JPanel {
             g.setFont(new Font(Font.DIALOG, Font.BOLD, 17));
             g.setColor(Color.BLACK);
             g.drawString("Ingresa tu nombre de usuario:", 60, 80);
-            nombreUsuario = new JTextField();
-            nombreUsuario.setBounds(80,100,200,30);
-            this.add(nombreUsuario);
+                nombreUsuario.setVisible(true);
+                nombreUsuario.setEnabled(true);
+            add(nombreUsuario);
 
             break;
             case 1:
                 nombreUsuario.setVisible(false);
+                nombreUsuario.setOpaque(false);
                 nombreUsuario.setEnabled(false);
                 g.setFont(new Font(Font.DIALOG,Font.BOLD,17));
                 g.setColor(Color.BLACK);
@@ -81,6 +69,7 @@ public class PanelIzquierdo extends JPanel {
                 g.setFont(new Font(Font.DIALOG,Font.PLAIN,17));
                 g.setColor(Color.BLACK);
                 g.drawString(usuario,168 ,50);
+
 
                 g.setFont(new Font(Font.DIALOG,Font.BOLD,17));
                 g.setColor(Color.BLACK);
@@ -94,10 +83,6 @@ public class PanelIzquierdo extends JPanel {
                 g.setFont(new Font(Font.DIALOG,Font.BOLD,17));
                 break;
         }
-
-
-
-
 
     }
 }
