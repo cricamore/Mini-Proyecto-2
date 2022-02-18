@@ -4,16 +4,36 @@ import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.awt.*;
 
+/**
+ * Class Usuarios permite leer y escribir en el arhivo de texto donde se almacenan los nombres de los usuarios
+ * @author Cristian Montaño 202024223
+ * @author Maicol Montenegro 202026993
+ * @version v.1.0.0 date 17/02/2022
+ */
 public class Usuarios {
     public static final String PATH = "src/myProject/files/usuarios.txt";
     private FileReader fileReader;
     private BufferedReader input;
     private FileWriter fileWriter;
     private BufferedWriter output;
+    private ArrayList<String> usuario = new ArrayList<>();
 
+
+
+    public String getUsuario(){
+        for (int i=0;i<=usuario.size();i++){
+            return usuario.get(i);
+        }
+        return null;
+    }
+
+    /**
+     * Permite leer los nombres de los jugadores de un archivo de texto
+     * @return usuario
+     */
     public ArrayList<String> lecturaFile(){
-        ArrayList<String> usuario = new ArrayList<String>();
         try {
             fileReader = new FileReader(PATH);
             input = new BufferedReader(fileReader);
@@ -36,6 +56,9 @@ public class Usuarios {
         return usuario;
     }
 
+    /**
+     * Permite escribir los usuarios en archivo de texto
+     */
     public void escribirTexto(String linea){
         try {
             fileWriter = new FileWriter(PATH,true);
@@ -52,6 +75,8 @@ public class Usuarios {
             }
         }
     }
+
+
 }
 
 

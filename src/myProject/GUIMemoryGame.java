@@ -1,17 +1,19 @@
 package myProject;
 
 import javax.swing.*;
-import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * This class is used for ...
- * @autor Paola-J Rodriguez-C paola.rodriguez@correounivalle.edu.co
- * @version v.1.0.0 date:21/11/2021
+ * This class is used as a view Memory Game Class
+ * @autor Cristian Camilo Montaño Rentería cristian.camilo.montano@correounivalle.edu.co
+ * @autor Maicol Jair Ordoñez Montenegro maicol.ordonez@correounivalle.edu.co
+ * @version v.1.0.0 date:17/02/2022
  */
 public class GUIMemoryGame extends JFrame {
 
@@ -23,9 +25,10 @@ public class GUIMemoryGame extends JFrame {
     private Escucha escucha;
     private JButton inicio, salir, ok, si, no, empezar;
     private JTextField nombreUsuario;
-    private JTextArea palabra;
-    private Timer timer;
-    private int counter;
+    private JTextArea palabra, comprobarPalabra;
+    private Timer timer, timerDos;
+
+
     private Random random;
     private Diccionario diccionario;
 
@@ -65,7 +68,16 @@ public class GUIMemoryGame extends JFrame {
         panelIzquierdo.setLayout(null);
 
         inicio = new JButton("INICIAR NIVEL");
-        inicio.setBounds(93,150,200,30);
+        //initTimer.addActionListener(escucha);
+        //initTimer.setVisible(false);
+        inicio.setEnabled(false);
+        add(inicio,BorderLayout.SOUTH);
+
+        //timer
+
+        timer = new Timer(1000,escucha);
+
+        inicio.setBounds(93,25,200,30);
         panelDerecho.add(inicio);
         inicio.setVisible(false);
         inicio.setEnabled(false);
@@ -81,23 +93,49 @@ public class GUIMemoryGame extends JFrame {
         ok.setBounds(150,150,55,40);
         ok.addActionListener(escucha);
 
-        timer = new Timer(500, escucha);
+        timerDos = new Timer(7000, escucha);
 
-        empezar = new JButton("Empezar");
-        empezar.setBounds(93,25,200,30);
+        empezar = new JButton("CONTINUAR");
+        empezar.setBounds(93,100,200,30);
         panelDerecho.add(empezar);
         empezar.setVisible(false);
         empezar.setEnabled(false);
 
         diccionario = new Diccionario();
 
+        palabra = new JTextArea(diccionario.getPalabra());
+        palabra.setBounds(100, 100,170,40);
+        palabra.setEditable(false);
+        palabra.setFont(new Font(Font.DIALOG,Font.BOLD,25));
+        panelDerecho.add(palabra);
+        palabra.setVisible(false);
+        palabra.setEnabled(false);
+        palabra.setBackground(Color.LIGHT_GRAY);
 
+        comprobarPalabra = new JTextArea(diccionario.getPalabra());
+        comprobarPalabra.setBounds(100, 100,170,40);
+        comprobarPalabra.setEditable(false);
+        comprobarPalabra.setFont(new Font(Font.DIALOG,Font.BOLD,25));
+        panelDerecho.add(comprobarPalabra);
+        comprobarPalabra.setVisible(false);
+        comprobarPalabra.setEnabled(false);
+        comprobarPalabra.setBackground(Color.LIGHT_GRAY);
 
+        si = new JButton("SÍ");
+        si.setBounds(73,150,70,30);
+        si.setVisible(false);
+        si.setEnabled(false);
+        si.addActionListener(escucha);
 
+        no = new JButton("NO");
+        no.setBounds(173,150,70,30);
+        no.setVisible(false);
+        no.setEnabled(false);
+        no.addActionListener(escucha);
 
     }
 
-    /**
+    /**c
      * Main process of the Java program
      * @param args Object used in order to send input data from command line when
      *             the program is execute by console.
@@ -111,22 +149,100 @@ public class GUIMemoryGame extends JFrame {
     /**
      * inner class that extends an Adapter Class or implements Listeners used by GUI class
      */
-    private class Escucha extends KeyAdapter implements ActionListener, myProject.Escucha {
+    private class Escucha extends KeyAdapter implements ActionListener {
+
+        private int counter=0;
 
         public Escucha(){
             random = new Random();
-            counter = 0;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            if(e.getSource()==timer){
+                if (counter<9){
+                    counter++;
+                    panelDerecho.add(palabra);
+                    palabra.setText(controlMemoryGame.pintarPalabra());
+                    System.out.println(palabra.getText());
+                }else {
+                    timer.stop();
+                    palabra.setVisible(false);
+                    palabra.setEnabled(false);
+                    empezar.setVisible(true);
+                    empezar.setEnabled(true);
+                    empezar.addActionListener(escucha);
+                }
+            }
+
+            if(e.getSource()==si){
+                if(palabra.getText().contains(comprobarPalabra.getText())){
+                    System.out.println("acierto");
+                    counter++;
+                    timerDos.restart();
+                }else {
+                    System.out.println("error");
+                }
+            }
+
+            if(e.getSource()==no){
+                if(palabra.getText().contains(comprobarPalabra.getText())){
+                    System.out.println("acierto");
+                    counter++;
+                    timerDos.restart();
+                }else {
+                    System.out.println("error");
+                }
+            }
+
+            if(e.getSource()==inicio){
+                timer.start();
+                panelDerecho.mostrarEnunciado();
+                inicio.setVisible(false);
+                inicio.setEnabled(false);
+                palabra.setVisible(true);
+                palabra.setEnabled(true);
+
+            }
+
+            if(e.getSource()==timerDos){
+                if(counter<19){
+                    counter++;
+                    panelDerecho.add(comprobarPalabra);
+                    palabra.setText(    controlMemoryGame.pintarPalabra()   );
+                }else {
+                    timerDos.stop();
+                    palabra.setVisible(false);
+                    palabra.setEnabled(false);
+                }
+            }
+
+
+            if(e.getSource()==empezar){
+                palabra.setVisible(true);
+                palabra.setEnabled(true);
+                panelDerecho.mostrarEnunciado();
+                timerDos.start();
+                empezar.setVisible(false);
+                empezar.setEnabled(false);
+                empezar.removeActionListener(escucha);
+                panelDerecho.remove(empezar);
+                panelDerecho.add(no);
+                panelDerecho.add(si);
+                si.setVisible(true);
+                si.setEnabled(true);
+                no.setVisible(true);
+                no.setEnabled(true);
+            }
+
             if(e.getSource()==salir){
                 System.exit(0);
             }
 
             if(e.getSource()==ok){
 
-
+                inicio.setVisible(true);
+                inicio.setEnabled(true);
                 panelIzquierdo.almacenar();
                 panelIzquierdo.cambiarDePanel();
                 ok.setVisible(false);
@@ -134,36 +250,10 @@ public class GUIMemoryGame extends JFrame {
             }
 
 
-            palabra = new JTextArea(diccionario.getPalabra());
-            panelDerecho.add(palabra);
-            timer.start();
-
-            if(e.getSource()==timer){
-                counter++;
-                if(counter <=10) {
-                    palabra.setBounds(100, 100, 175, 35);
-                    palabra.setEditable(false);
-                    palabra.setFont(new Font(Font.DIALOG, Font.BOLD, 25));
-                    palabra.setBackground(Color.LIGHT_GRAY);
-                }else {
-                    timer.stop();
-                    palabra.setVisible(false);
-                    palabra.setEnabled(false);
-                    inicio.setVisible(true);
-                    inicio.setEnabled(true);
-                }
-            }else {
-                timer.start();
-                panelDerecho.mostrarEnunciado();
-            }
-
-
-
 
 
         }
 
-
+    }
 
     }
-}
