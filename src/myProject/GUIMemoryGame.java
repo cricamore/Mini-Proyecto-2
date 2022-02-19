@@ -27,8 +27,6 @@ public class GUIMemoryGame extends JFrame {
     private JTextField nombreUsuario;
     private JTextArea palabra, comprobarPalabra;
     private Timer timer, timerDos;
-
-
     private Random random;
     private Diccionario diccionario;
 
@@ -39,10 +37,10 @@ public class GUIMemoryGame extends JFrame {
         initGUI();
 
         //Default JFrame configuration
-        this.setTitle("The Title app");
-        this.setSize(200,100);
+        this.setTitle("I KNOW THAT WORD!");
+        //this.setSize(200,100);
         this.pack();
-        //this.setResizable(true);
+        this.setResizable(true);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,7 +58,7 @@ public class GUIMemoryGame extends JFrame {
         //Set up JComponents
         headerProject = new Header("I KNOW THAT WORD!", Color.BLACK);
         this.add(headerProject,BorderLayout.PAGE_START); //Change this line if you change JFrame Container's Layout
-        panelDerecho = new PanelDerecho( controlMemoryGame.pintarPalabra());
+        panelDerecho = new PanelDerecho(null);
         add(panelDerecho,BorderLayout.EAST);
         panelDerecho.setLayout(null);
         panelIzquierdo = new PanelIzquierdo();
@@ -75,9 +73,9 @@ public class GUIMemoryGame extends JFrame {
 
         //timer
 
-        timer = new Timer(1000,escucha);
+        timer = new Timer(100,escucha);
 
-        inicio.setBounds(93,25,200,30);
+        inicio.setBounds(93,(200/2)-15,200,30);
         panelDerecho.add(inicio);
         inicio.setVisible(false);
         inicio.setEnabled(false);
@@ -93,7 +91,9 @@ public class GUIMemoryGame extends JFrame {
         ok.setBounds(150,150,55,40);
         ok.addActionListener(escucha);
 
-        timerDos = new Timer(7000, escucha);
+        //timer segunda etapa
+
+        timerDos = new Timer(4000, escucha);
 
         empezar = new JButton("CONTINUAR");
         empezar.setBounds(93,100,200,30);
@@ -103,7 +103,7 @@ public class GUIMemoryGame extends JFrame {
 
         diccionario = new Diccionario();
 
-        palabra = new JTextArea(diccionario.getPalabra());
+        palabra = new JTextArea();
         palabra.setBounds(100, 100,170,40);
         palabra.setEditable(false);
         palabra.setFont(new Font(Font.DIALOG,Font.BOLD,25));
@@ -112,7 +112,7 @@ public class GUIMemoryGame extends JFrame {
         palabra.setEnabled(false);
         palabra.setBackground(Color.LIGHT_GRAY);
 
-        comprobarPalabra = new JTextArea(diccionario.getPalabra());
+        comprobarPalabra = new JTextArea();
         comprobarPalabra.setBounds(100, 100,170,40);
         comprobarPalabra.setEditable(false);
         comprobarPalabra.setFont(new Font(Font.DIALOG,Font.BOLD,25));
@@ -152,6 +152,8 @@ public class GUIMemoryGame extends JFrame {
     private class Escucha extends KeyAdapter implements ActionListener {
 
         private int counter=0;
+        ArrayList<String>palabras1=new ArrayList<>();
+        ArrayList<String>nivel=new ArrayList<>();
 
         public Escucha(){
             random = new Random();
@@ -160,38 +162,37 @@ public class GUIMemoryGame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource()==timer){
-                if (counter<9){
-                    counter++;
-                    panelDerecho.add(palabra);
+                if (counter<10){
                     palabra.setText(controlMemoryGame.pintarPalabra());
-                    System.out.println(palabra.getText());
+                    palabras1.add(palabra.getText());
+                    counter++;
                 }else {
                     timer.stop();
+                    panelDerecho.remove(palabra);
+                    System.out.println(palabras1);
                     palabra.setVisible(false);
                     palabra.setEnabled(false);
                     empezar.setVisible(true);
                     empezar.setEnabled(true);
                     empezar.addActionListener(escucha);
+                    panelDerecho.add(comprobarPalabra);
+                    counter=0;
+                    nivel = palabras1;
+                    revalidate();
+                    repaint();
                 }
             }
 
-            if(e.getSource()==si){
-                if(palabra.getText().contains(comprobarPalabra.getText())){
-                    System.out.println("acierto");
-                    counter++;
-                    timerDos.restart();
-                }else {
-                    System.out.println("error");
-                }
-            }
+
+
 
             if(e.getSource()==no){
-                if(palabra.getText().contains(comprobarPalabra.getText())){
-                    System.out.println("acierto");
-                    counter++;
-                    timerDos.restart();
-                }else {
+                counter++;
+                if(palabras1.contains(comprobarPalabra.getText())){
                     System.out.println("error");
+                    //timerDos.restart();
+                }else {
+                    System.out.println("acierto");
                 }
             }
 
@@ -206,14 +207,31 @@ public class GUIMemoryGame extends JFrame {
             }
 
             if(e.getSource()==timerDos){
-                if(counter<19){
+                if(counter<20){
+                    if(nivel.size()<20){
+                        nivel.add(controlMemoryGame.pintarPalabra());
+                    }
+                    comprobarPalabra.setText( nivel.get(counter) );
+                    comprobarPalabra.setVisible(true);
+                    comprobarPalabra.setEnabled(true);
                     counter++;
-                    panelDerecho.add(comprobarPalabra);
-                    palabra.setText(    controlMemoryGame.pintarPalabra()   );
+
                 }else {
                     timerDos.stop();
-                    palabra.setVisible(false);
-                    palabra.setEnabled(false);
+                    counter=0;
+                    System.out.println( nivel );
+                    panelDerecho.remove(comprobarPalabra);
+                    comprobarPalabra.setVisible(false);
+                    comprobarPalabra.setEnabled(false);
+                }
+                if(e.getSource()==si){
+                    counter++;
+                    if(palabras1.contains(comprobarPalabra.getText())){
+                        System.out.println("acierto");
+                        //timerDos.restart();
+                    }else {
+                        System.out.println("error");
+                    }
                 }
             }
 
@@ -247,6 +265,7 @@ public class GUIMemoryGame extends JFrame {
                 panelIzquierdo.cambiarDePanel();
                 ok.setVisible(false);
                 ok.setEnabled(false);
+                panelDerecho.mostrarEnunciado();
             }
 
 

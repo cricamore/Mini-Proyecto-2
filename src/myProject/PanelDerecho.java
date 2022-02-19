@@ -14,6 +14,7 @@ import java.util.Random;
 public class  PanelDerecho extends JPanel {
     public static final int WIDTH = 370;
     public static final int HEIGHT = 200;
+    public static final int altura = 50;
     private Diccionario diccionario;
     private int enunciado;
     private Timer timer;
@@ -60,16 +61,27 @@ public class  PanelDerecho extends JPanel {
 
             case 0: g.setFont(new Font(Font.DIALOG,Font.BOLD,17));
                 g.setColor(Color.BLACK);
-                g.drawString("Presione el botón para"+"\n dar inicio al nivel",4,17);
+
+                g.drawString("El juego consiste en ",WIDTH/4,altura);
+                g.drawString("memorizar la mayor",WIDTH/4,altura+19);
+                g.drawString("cantidad de palabras que",WIDTH/4,altura+34);
+                g.drawString("se muestran. A medida ",WIDTH/4,altura+49);
+                g.drawString("que se avanza en nivel, ",WIDTH/4,altura+64);
+                g.drawString("aumenta el número de", WIDTH/4,altura+79);
+                g.drawString("palabras a memorizar. ",WIDTH/4,altura+94);
+                break;
+            case 1: g.setFont(new Font(Font.DIALOG,Font.BOLD,17));
+                g.setColor(Color.BLACK);
+                g.drawString("Presione el botón para"+"\n dar inicio al nivel",20,HEIGHT/3);
             break;
 
-            case 1: g.setFont(new Font(Font.DIALOG,Font.BOLD,17));
+            case 2: g.setFont(new Font(Font.DIALOG,Font.BOLD,17));
                 g.setColor(Color.BLACK);
                 g.drawString("Memorice las palabras que se mostrarán",4,70);
                 g.drawString("a continuación:",4,88);
                 break;
 
-            case 2:g.setFont(new Font(Font.DIALOG,Font.BOLD,17));
+            case 3:g.setFont(new Font(Font.DIALOG,Font.BOLD,17));
                 g.setColor(Color.BLACK);
                 g.drawString("¿Esta palabra apareció?",4,70);
                 break;

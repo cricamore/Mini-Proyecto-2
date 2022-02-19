@@ -26,6 +26,7 @@ public class ControlMemoryGame {
 
 
 
+
     public String nivel(int nivel){
         return String.valueOf(nivel);
     }
