@@ -73,7 +73,7 @@ public class GUIMemoryGame extends JFrame {
 
         //timer
 
-        timer = new Timer(100,escucha);
+        timer = new Timer(5000,escucha);
 
         inicio.setBounds(93,(200/2)-15,200,30);
         panelDerecho.add(inicio);
@@ -93,7 +93,7 @@ public class GUIMemoryGame extends JFrame {
 
         //timer segunda etapa
 
-        timerDos = new Timer(4000, escucha);
+        timerDos = new Timer(7000, escucha);
 
         empezar = new JButton("CONTINUAR");
         empezar.setBounds(93,100,200,30);
@@ -184,7 +184,15 @@ public class GUIMemoryGame extends JFrame {
             }
 
 
-
+            if(e.getSource()==si){
+                counter++;
+                if(palabras1.contains(comprobarPalabra.getText())){
+                    System.out.println("acierto");
+                    //timerDos.restart();
+                }else {
+                    System.out.println("error");
+                }
+            }
 
             if(e.getSource()==no){
                 counter++;
@@ -224,15 +232,7 @@ public class GUIMemoryGame extends JFrame {
                     comprobarPalabra.setVisible(false);
                     comprobarPalabra.setEnabled(false);
                 }
-                if(e.getSource()==si){
-                    counter++;
-                    if(palabras1.contains(comprobarPalabra.getText())){
-                        System.out.println("acierto");
-                        //timerDos.restart();
-                    }else {
-                        System.out.println("error");
-                    }
-                }
+
             }
 
 
